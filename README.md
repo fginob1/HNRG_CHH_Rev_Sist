@@ -25,6 +25,18 @@ The pipeline performs the following high-level operations:
 6. Iterative ACMG evidence refinement
 7. Generation of a final refined variant database
 
+## Scope and design considerations
+
+This pipeline explicitly distinguishes between variant-level and transcript-level
+representations:
+
+- Transcript-level expansion is performed only when transcript-aware decisions are required
+  (e.g. MANE selection, HGVS interpretation).
+- Variant-level tables are used for Bayesian evidence aggregation and ACMG refinement steps.
+
+This design avoids unintended duplication or loss of variants while maintaining
+biological interpretability.
+
 ---
 
 ## Requirements
@@ -182,7 +194,7 @@ gatk VariantsToTable   -V bayesian_step_2.vcf   -O table_bayesian_step_2.tsv   -
 
 ### Step 12 — ACMG evidence refinement (Step 3)
 
-mcpaf stand for Maximum Credible Population Allele Frequency (is displayed on screen when running run_acmg_pipeline_step_1.py). In this example, the 0.000025 is given as an example.
+MCPAF stands for Maximum Credible Population Allele Frequency. This value is displayed during execution of `run_acmg_pipeline_step_1.py`. In this example, the 0.000025 is given as an example.
 
 ```bash
 python run_acmg_pipeline_step_3.py \
@@ -238,6 +250,10 @@ This pipeline is intended for research use only.
 Clinical interpretation must be performed by qualified professionals.
 
 Some steps require institutional computational resources.
+
+No variant-level deduplication is applied prior to canonical transcript selection.
+Each variant is guaranteed to be retained throughout the pipeline, ensuring
+complete traceability from input to final output.
 
 ## Citation
 

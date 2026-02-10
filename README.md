@@ -93,7 +93,17 @@ python database_variants_2_vcf.py \
 ### Step 2 — External variant annotation
 
 The generated VCF must be annotated using institutional or local bioinformatics
-infrastructure. This step is intentionally not automated within this repository.
+infrastructure.
+
+Variant effect prediction is performed using SnpEff:
+
+https://github.com/pcingola/SnpEff
+
+Genomic coordinates and clinical significance are integrated from gnomAD and ClinVar using SnpSift. Functional and splicing impact scores are further derived from REVEL and SpliceAI via the dbNSFP plugin.
+
+Variants are classified using InterVar:
+
+https://github.com/WGLab/InterVar
 
 The output of this step is an annotated VCF containing all required annotations.
 
@@ -258,6 +268,8 @@ complete traceability from input to final output.
 ## Citation
 
 Please cite the associated publication when using this pipeline.
+
+DOI: 10.1093/hmg/ddag007
 
 ## Contact
 
